@@ -26,84 +26,147 @@ This project demonstrates the implementation of a Library Management System usin
 ```sql
 CREATE DATABASE library_management_sysytem;
 
-DROP TABLE IF EXISTS branch;
-CREATE TABLE branch
-(
+CREATE TABLE branch(
             branch_id VARCHAR(10) PRIMARY KEY,
-            manager_id VARCHAR(10),
-            branch_address VARCHAR(30),
-            contact_no VARCHAR(15)
+	manager_id VARCHAR(10),
+	branch_address VARCHAR(55),
+	contact_no VARCHAR (10)
 );
 
 
+
 -- Create table "Employee"
-DROP TABLE IF EXISTS employees;
-CREATE TABLE employees
-(
+
+CREATE TABLE employee(
             emp_id VARCHAR(10) PRIMARY KEY,
-            emp_name VARCHAR(30),
-            position VARCHAR(30),
-            salary DECIMAL(10,2),
-            branch_id VARCHAR(10),
-            FOREIGN KEY (branch_id) REFERENCES  branch(branch_id)
+ 	emp_name VARCHAR(25),
+	position  VARCHAR(15),
+ 	salary FLOAT,
+            branch_id VARCHAR(25) --fk
 );
 
 
 -- Create table "Members"
-DROP TABLE IF EXISTS members;
-CREATE TABLE members
-(
+
+CREATE TABLE member(
             member_id VARCHAR(10) PRIMARY KEY,
-            member_name VARCHAR(30),
-            member_address VARCHAR(30),
-            reg_date DATE
+	member_name VARCHAR(25),
+	member_address VARCHAR(75),
+	reg_date DATE
 );
 
 
 
+
 -- Create table "Books"
-DROP TABLE IF EXISTS books;
-CREATE TABLE books
-(
-            isbn VARCHAR(50) PRIMARY KEY,
-            book_title VARCHAR(80),
-            category VARCHAR(30),
-            rental_price DECIMAL(10,2),
-            status VARCHAR(10),
-            author VARCHAR(30),
-            publisher VARCHAR(30)
+CREATE TABLE book(
+    isbn VARCHAR(20) PRIMARY KEY,
+    book_title VARCHAR(75),
+    category VARCHAR(10),
+    rental_price FLOAT,
+    status	VARCHAR(15),
+    author	VARCHAR(35),
+    publisher VARCHAR(35)
 );
 
 
 
 -- Create table "IssueStatus"
-DROP TABLE IF EXISTS issued_status;
-CREATE TABLE issued_status
-(
+
+CREATE TABLE issued_status(
             issued_id VARCHAR(10) PRIMARY KEY,
-            issued_member_id VARCHAR(30),
-            issued_book_name VARCHAR(80),
-            issued_date DATE,
-            issued_book_isbn VARCHAR(50),
-            issued_emp_id VARCHAR(10),
-            FOREIGN KEY (issued_member_id) REFERENCES members(member_id),
-            FOREIGN KEY (issued_emp_id) REFERENCES employees(emp_id),
-            FOREIGN KEY (issued_book_isbn) REFERENCES books(isbn) 
+	issued_member_id VARCHAR(10),--fk
+	issued_book_name VARCHAR(75),
+	issued_date DATE,
+	issued_book_isbn VARCHAR(25),--fk
+	issued_emp_id VARCHAR (10)--fk
 );
+
 
 
 
 -- Create table "ReturnStatus"
-DROP TABLE IF EXISTS return_status;
-CREATE TABLE return_status
-(
-            return_id VARCHAR(10) PRIMARY KEY,
-            issued_id VARCHAR(30),
-            return_book_name VARCHAR(80),
-            return_date DATE,
-            return_book_isbn VARCHAR(50),
-            FOREIGN KEY (return_book_isbn) REFERENCES books(isbn)
+
+CREATE TABLE return_status(
+   return_id VARCHAR(10) PRIMARY KEY,
+   issued_id VARCHAR (10),
+   return_book_name	VARCHAR(75),
+   return_date DATE,	
+   return_book_isbn VARCHAR(2)
 );
+
+
+-- Foreigne key
+
+ALTER TABLE issued_status
+ADD CONSTRAINT  fk_members
+FOREIGN KEY (issued_member_id)
+REFERENCES member(member_id);
+
+ALTER TABLE issued_status
+ADD CONSTRAINT  fk_books
+FOREIGN KEY (issued_book_isbn)
+REFERENCES book(isbn);
+
+ALTER TABLE issued_status
+ADD CONSTRAINT  fk_employees
+FOREIGN KEY (issued_emp_id)
+REFERENCES employee(emp_id);
+
+ALTER TABLE employee
+ADD CONSTRAINT  fk_branch
+FOREIGN KEY (branch_id)
+REFERENCES branch(branch_id);
+
+ALTER TABLE return_status
+ADD CONSTRAINT  fk_issued_states
+FOREIGN KEY (issued_id)
+REFERENCES issued_status(issued_id);
+
+-- Insert data for table
+
+-- Insert branch table
+
+COPY branch
+FROM 'E:\csv_files\branch.csv'
+DELIMITER ','
+CSV HEADER;
+
+-- Insert employee table
+
+COPY employee
+FROM 'E:\csv_files\employees.csv'
+DELIMITER ','
+CSV HEADER;
+
+-- Insert books table
+
+COPY book
+FROM 'E:\csv_files\books.csv'
+DELIMITER ','
+CSV HEADER;
+
+-- Insert member table
+
+COPY member
+FROM 'E:\csv_files\members.csv'
+DELIMITER ','
+CSV HEADER;
+
+-- Insert issued_status table
+
+COPY issued_status
+FROM 'E:\csv_files\issued_status.csv'
+DELIMITER ','
+CSV HEADER;
+
+-- Insert return_status table
+
+
+COPY return_status
+FROM 'E:\csv_files\return_status.csv'
+DELIMITER ','
+CSV HEADER;
 
 ```
 
