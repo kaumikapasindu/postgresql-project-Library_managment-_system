@@ -27,7 +27,7 @@ This project demonstrates the implementation of a Library Management System usin
 CREATE DATABASE library_management_sysytem;
 
 CREATE TABLE branch(
-            branch_id VARCHAR(10) PRIMARY KEY,
+    branch_id VARCHAR(10) PRIMARY KEY,
 	manager_id VARCHAR(10),
 	branch_address VARCHAR(55),
 	contact_no VARCHAR (10)
@@ -38,18 +38,18 @@ CREATE TABLE branch(
 -- Create table "Employee"
 
 CREATE TABLE employee(
-            emp_id VARCHAR(10) PRIMARY KEY,
+    emp_id VARCHAR(10) PRIMARY KEY,
  	emp_name VARCHAR(25),
 	position  VARCHAR(15),
  	salary FLOAT,
-            branch_id VARCHAR(25) --fk
+    branch_id VARCHAR(25) --fk
 );
 
 
 -- Create table "Members"
 
 CREATE TABLE member(
-            member_id VARCHAR(10) PRIMARY KEY,
+    member_id VARCHAR(10) PRIMARY KEY,
 	member_name VARCHAR(25),
 	member_address VARCHAR(75),
 	reg_date DATE
@@ -74,7 +74,7 @@ CREATE TABLE book(
 -- Create table "IssueStatus"
 
 CREATE TABLE issued_status(
-            issued_id VARCHAR(10) PRIMARY KEY,
+    issued_id VARCHAR(10) PRIMARY KEY,
 	issued_member_id VARCHAR(10),--fk
 	issued_book_name VARCHAR(75),
 	issued_date DATE,
